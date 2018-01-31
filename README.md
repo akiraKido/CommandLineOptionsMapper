@@ -2,6 +2,8 @@
 
 This project will map options into properties.
 
+Or just use [Microsoft.Extensions.Configuration](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?tabs=basicconfiguration#commandline-configuration-provider).
+
 ## Quick start
 
 ```csharp
