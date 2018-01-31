@@ -72,8 +72,6 @@ namespace ConsoleOptionsMapperTests
         [OptionArgument(ShortName = "b", NeedsValue = true)]
         public string B { get; }
 
-        public Bar() { }
-
         public Bar(string a, string b)
         {
             A = a;

@@ -24,17 +24,15 @@ namespace ConsoleOptionsMapper
 
     public static class ConsoleExecuter
     {
-        public static void Execute<T>(IEnumerable<string> arguments, T instance = default) where T : new()
+        public static void Execute<T>(IEnumerable<string> arguments, T instance = default)
         {
             var targetType = typeof(T);
 
             // check that T is ConsoleOptions
             Attribute.GetCustomAttribute(targetType, typeof(ConsoleOptionsAttribute));
-
-            var target = instance == null || instance.Equals(default) ? new T() : instance;
-
-            SetProperties(targetType, ref target, arguments.Skip(1));
-            ExecuteCommand(targetType, target, arguments.First());
+            
+            SetProperties(targetType, ref instance, arguments.Skip(1));
+            ExecuteCommand(targetType, instance, arguments.First());
         }
 
         private static void SetProperties<T>(Type targetType, ref T target, IEnumerable<string> arguments)
@@ -97,6 +95,9 @@ namespace ConsoleOptionsMapper
                    });
                 if (targetConstructor == null)
                 {
+                    // does not have a designated constructor
+                    if ( target?.Equals( default( T ) ) != false ) target = Activator.CreateInstance<T>();
+
                     foreach (var optionValue in optionValues)
                     {
                         (string option, object value) = (optionValue.Key, optionValue.Value);
