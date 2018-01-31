@@ -41,6 +41,33 @@ Or just use [Microsoft.Extensions.Configuration](https://docs.microsoft.com/en-u
 
 This will invoke `Test()` with `"someValue"` set in property `A`, `"someOtherValue"` set in property `B`, and true set in property `C`.
 
+You may also use Immutable Models.
+
+```csharp
+    [ConsoleOptions]
+    public class Bar
+    {
+        [OptionArgument(ShortName = "a", NeedsValue = true)]
+        public string A { get; }
+        [OptionArgument(ShortName = "b", NeedsValue = true)]
+        public string B { get; }
+
+        public Bar(string a, string b)
+        {
+            A = a;
+            B = b;
+        }
+
+        [Option(Name = "test")]
+        public void Test()
+        {
+			// Do something
+        }
+    }
+```
+
+Make sure that the constructor's parameter names and the short names / long names match.
+
 ## Details
 
 ### ConsoleOptions
