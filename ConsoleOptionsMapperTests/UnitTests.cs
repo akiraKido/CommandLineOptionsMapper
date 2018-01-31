@@ -32,7 +32,14 @@ namespace ConsoleOptionsMapperTests
         public void ExecutionTest()
         {
             var command = "test -a test";
-            ConsoleExecuter.Execute<Foo>( command.Split( " " ) );
+            ConsoleExecuter.Execute<Foo>(command.Split(" "));
+        }
+
+        [Fact]
+        public void ConstructorTest()
+        {
+            var command = "test -a test1 -b test2";
+            ConsoleExecuter.Execute<Bar>(command.Split(" "));
         }
     }
 
@@ -54,6 +61,30 @@ namespace ConsoleOptionsMapperTests
         public void Test()
         {
             Result = $"{A}{B}";
+        }
+    }
+
+    [ConsoleOptions]
+    public class Bar
+    {
+        [OptionArgument(ShortName = "a", NeedsValue = true)]
+        public string A { get; }
+        [OptionArgument(ShortName = "b", NeedsValue = true)]
+        public string B { get; }
+
+        public Bar() { }
+
+        public Bar(string a, string b)
+        {
+            A = a;
+            B = b;
+        }
+
+        [Option(Name = "test")]
+        public void Test()
+        {
+            Assert.Equal("test1", A);
+            Assert.Equal("test2", B);
         }
     }
 }
