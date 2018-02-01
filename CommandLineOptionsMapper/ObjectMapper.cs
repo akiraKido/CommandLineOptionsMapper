@@ -10,22 +10,25 @@ namespace CommandLineOptionsMapper
         private readonly string[] _prefixes = { "-" };
         private readonly Type _targetType = typeof(T);
 
-        public ObjectMapper(params string[] prefixes)
-        {
-            CheckConsoleOptionsAttribute();
-            _prefixes = _prefixes.Concat(prefixes).ToArray();
-        }
+        public ObjectMapper(params string[] prefixes) : this((IEnumerable<string>)prefixes) { }
 
         public ObjectMapper(IEnumerable<string> prefixes)
         {
-            CheckConsoleOptionsAttribute();
-            _prefixes = _prefixes.Concat(prefixes).ToArray();
-        }
-
-        private void CheckConsoleOptionsAttribute()
-        {
             // check that T is ConsoleOptions
             Attribute.GetCustomAttribute(_targetType, typeof(CommandLineAttribute));
+
+            if ( prefixes != null )
+            {
+                switch ( prefixes )
+                {
+                    case string[] prefixesArray:
+                        _prefixes = prefixesArray;
+                        break;
+                    default:
+                        _prefixes = prefixes.ToArray();
+                        break;
+                }
+            }
         }
 
         /// <summary>

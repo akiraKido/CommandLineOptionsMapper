@@ -101,7 +101,11 @@ Make sure that the constructor's parameter names and the short names / long name
         }
     }
 	```
-- Add strings to the constructor to add prefixes. ie) -a or /a or --a, etc
+- Add strings to the constructor to override prefixes
+    ```csharp
+	var mapper = new ObjectMapper<Foo>("-", "--", "/"); // this will take -a or --a or /a as valid arguments
+	```
+	- default will take "-" only
 
 ## CommandLineRunner
 
