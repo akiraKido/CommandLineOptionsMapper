@@ -92,14 +92,14 @@ Make sure that the constructor's parameter names and the short names / long name
 
 - You may use this class to just map command line arguments to an object:
 	```csharp
-	public static class Program
-	{
-		public static void Main(string[] args)
-		{
+    public static class Program
+    {
+        public static void Main(string[] args)
+        {
             var mapper = new ObjectMapper<Foo>();
             var instance = mapper.Map(args);
-		}
-	}
+        }
+    }
 	```
 - Add strings to the constructor to add prefixes. ie) -a or /a or --a, etc
 
