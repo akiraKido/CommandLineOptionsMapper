@@ -78,8 +78,8 @@ Make sure that the constructor's parameter names and the short names / long name
 ### OptionArgumentAttribute
 
 - Add this attribute to the properties you want to use as arguments.
-	- Use `string` for arguments with `NeedsAttribute`
-	- Use `bool` for argument without `NeedsAttribute`
+	- Use `string` for arguments with values
+	- Use `bool` for argument without values
 	- Set either `ShortName` or `LongName`. These currently do not have any restrictions.
 	- Currently, `OptionArguments` **MUST be a `public` `property` with both getter and a setter**.
 
