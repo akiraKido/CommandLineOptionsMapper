@@ -1,4 +1,4 @@
-# Console Options Mapper
+# Command Line Options Mapper
 
 This project will map options into properties.
 
@@ -7,13 +7,13 @@ Or just use [Microsoft.Extensions.Configuration](https://docs.microsoft.com/en-u
 ## Quick start
 
 ```csharp
-    [ConsoleOptions]
+    [CommandLine]
     public class Foo
     {
-        [OptionArgument(ShortName = "a", NeedsValue = true)]
+        [OptionArgument(ShortName = "a")]
         public string A { get; set; }
 
-        [OptionArgument(ShortName = "b", NeedsValue = true)]
+        [OptionArgument(ShortName = "b")]
         public string B { get; set; }
 
         [OptionArgument(ShortName = "c")]
@@ -30,7 +30,7 @@ Or just use [Microsoft.Extensions.Configuration](https://docs.microsoft.com/en-u
 	{
 		public static void Main(string[] args)
 		{
-			ConsoleExecuter.Execute<Foo>(args);
+			new CommandLineRunner<Foo>().Run(args);
 		}
 	}
 ```
@@ -44,12 +44,12 @@ This will invoke `Test()` with `"someValue"` set in property `A`, `"someOtherVal
 You may also use Immutable Models.
 
 ```csharp
-    [ConsoleOptions]
+    [CommandLine]
     public class Bar
     {
-        [OptionArgument(ShortName = "a", NeedsValue = true)]
+        [OptionArgument(ShortName = "a")]
         public string A { get; }
-        [OptionArgument(ShortName = "b", NeedsValue = true)]
+        [OptionArgument(ShortName = "b")]
         public string B { get; }
 
         public Bar(string a, string b)
@@ -70,12 +70,12 @@ Make sure that the constructor's parameter names and the short names / long name
 
 ## Details
 
-### ConsoleOptions
+### CommandLineAttribute
 
 - Add this attribute to the class you want to use as the master.
-	- If this attribute does not exist, the `ConsoleExecuter` will throw an exception.
+	- If this attribute does not exist, the `CommandLineRunner` will throw an exception.
 
-### OptionArgument
+### OptionArgumentAttribute
 
 - Add this attribute to the properties you want to use as arguments.
 	- Use `string` for arguments with `NeedsAttribute`
@@ -83,7 +83,26 @@ Make sure that the constructor's parameter names and the short names / long name
 	- Set either `ShortName` or `LongName`. These currently do not have any restrictions.
 	- Currently, `OptionArguments` **MUST be a `public` `property` with both getter and a setter**.
 
-### Option
+### OptionAttribute
 
 - Add this attribute to methods you want to set as options.
 	- Currenlty, these methods cannot have any arguments of their own.
+
+### ObjectMapper
+
+- You may use this class to just map command line arguments to an object:
+	```csharp
+	public static class Program
+	{
+		public static void Main(string[] args)
+		{
+            var mapper = new ObjectMapper<Foo>();
+            var instance = mapper.Map(args);
+		}
+	}
+	```
+- Add strings to the constructor to add prefixes. ie) -a or /a or --a, etc
+
+## CommandLineRunner
+
+- See quick start.
