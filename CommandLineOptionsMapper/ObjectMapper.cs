@@ -41,7 +41,8 @@ namespace CommandLineOptionsMapper
             if (target == null) throw new ArgumentNullException(nameof(target));
             if (arguments == null) throw new ArgumentNullException(nameof(arguments));
 
-            (var optionValues, var propertyInfos) = GetOptionValues(arguments);
+            var optionPropertyData = BuildOptionPropertyData(arguments);
+            (var optionValues, var propertyInfos) = (optionPropertyData.OptionValues, optionPropertyData.PropertyInfos);
 
             foreach (var optionValue in optionValues)
             {
@@ -66,7 +67,7 @@ namespace CommandLineOptionsMapper
 
         public T ImmutableMap(IEnumerable<string> arguments)
         {
-            var optionValues = GetOptionValues(arguments).optionValues;
+            var optionValues = BuildOptionPropertyData(arguments).OptionValues;
             var constructors = _targetType.GetConstructors();
 
             var targetConstructor = constructors
@@ -89,8 +90,7 @@ namespace CommandLineOptionsMapper
             return (T)targetConstructor.ConstructorInfo.Invoke(parameterValues);
         }
 
-        private (Dictionary<string, object> optionValues, Dictionary<PropertyInfo, OptionArgumentAttribute> propertyInfos)
-            GetOptionValues(IEnumerable<string> arguments)
+        private OptionPropertyData BuildOptionPropertyData(IEnumerable<string> arguments)
         {
             var optionValues = new Dictionary<string, object>();
             var propertyInfos = new Dictionary<PropertyInfo, OptionArgumentAttribute>();
@@ -145,7 +145,22 @@ namespace CommandLineOptionsMapper
                 }
             }
 
-            return (optionValues, propertyInfos);
+            return new OptionPropertyData(optionValues, propertyInfos);
+        }
+
+        private struct OptionPropertyData
+        {
+            public OptionPropertyData( 
+                Dictionary<string, object> optionValues,
+                Dictionary<PropertyInfo, OptionArgumentAttribute> propertyInfos )
+            {
+                OptionValues = optionValues;
+                PropertyInfos = propertyInfos;
+            }
+
+            internal Dictionary<string, object> OptionValues { get; }
+            internal Dictionary<PropertyInfo, OptionArgumentAttribute> PropertyInfos { get; }
+            
         }
     }
 }
