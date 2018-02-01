@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConsoleOptionsMapper
+namespace CommandLineOptionsMapper
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class CommandLineAttribute : Attribute { }

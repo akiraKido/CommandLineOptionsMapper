@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ConsoleOptionsMapper
+namespace CommandLineOptionsMapper
 {
     public class CommandLineRunner<T>
     {

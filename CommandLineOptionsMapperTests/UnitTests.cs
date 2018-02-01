@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
-using ConsoleOptionsMapper;
+using CommandLineOptionsMapper;
 using Xunit;
 
-namespace ConsoleOptionsMapperTests
+namespace CommandLineOptionsMapperTests
 {
     public class UnitTests
     {

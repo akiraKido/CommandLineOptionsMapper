@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ConsoleOptionsMapper\ConsoleOptionsMapper.csproj" />
+    <ProjectReference Include="..\CommandLineOptionsMapper\CommandLineOptionsMapper.csproj" />
   </ItemGroup>
 
 </Project>
